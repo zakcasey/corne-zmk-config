@@ -1,6 +1,3 @@
-# Copyright 2022 Manna Harbour
-# https://github.com/manna-harbour/miryoku
-
 name: "Build Typeractive corne nice_nano_v2 nice_view"
 on: workflow_dispatch
 jobs:
@@ -9,5 +6,11 @@ jobs:
     secrets: inherit
     with:
       board: '["nice_nano@2.0.0//zmk"]'
-      shield: '["corne_left nice_view_adapter nice_view","corne_right nice_view_adapter nice_view"]'
-      kconfig: '["CONFIG_ZMK_SLEEP=y CONFIG_ZMK_IDLE_TIMEOUT=900000"]'
+      # nice_view_gem replaces the stock nice_view shield. It comes from the
+      # module below, and it needs nice_view_adapter in the same way.
+      shield: '["corne_left nice_view_adapter nice_view_gem","corne_right nice_view_adapter nice_view_gem"]'
+      # The module revision must match the ZMK revision. main.yml clones ZMK
+      # main, so the module uses its main branch.
+      modules: '["M165437/nice-view-gem/main"]'
+      # Kconfig lives in config/corne.conf. Do not set kconfig here: the workflow
+      # writes it to config/corne_left.conf, which ZMK ignores when corne.conf exists.
