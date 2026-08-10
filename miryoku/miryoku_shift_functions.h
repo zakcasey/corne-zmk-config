@@ -1,6 +1,3 @@
-// Copyright 2022 Manna Harbour
-// https://github.com/manna-harbour/miryoku
-
 #pragma once
 
 #if defined (MIRYOKU_KLUDGE_GLOBALSHIFTFUNCTIONS)

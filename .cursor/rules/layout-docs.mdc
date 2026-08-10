@@ -1,0 +1,19 @@
+---
+description: Keep SETUP.md and the Corne canvas in sync with custom_config.h
+globs: miryoku/custom_config.h,config/corne.keymap,miryoku/miryoku_behaviors.dtsi,SETUP.md
+alwaysApply: false
+---
+
+# Layout docs must stay in sync
+
+`miryoku/custom_config.h` is the source of truth for layers.
+
+After any layout change in this session:
+
+1. Update `SETUP.md` layer diagrams and notes.
+2. Update the canvas at
+   `~/.cursor/projects/Users-zakcasey-Documents-projects-keyboard-miryoku-zmk/canvases/corne-layer-reference.canvas.tsx`
+3. Run `python3 scripts/check-layer-docs.py` and fix any drift before you stop.
+
+Do not leave the canvas or `SETUP.md` behind the firmware config.
+See `AGENTS.md` for the full checklist.

@@ -1,29 +1,17 @@
-// Copyright 2022 Manna Harbour
-// https://github.com/manna-harbour/miryoku
-
+// Thumb layer-taps. "balanced" starts the layer as soon as you press and
+// release a key on the other side, so the layer is available immediately.
+// "tap-preferred" made every layer needed a full U_TAPPING_TERM hold first.
+// require-prior-idle-ms stops a fast roll out of a word into Space from
+// opening the Nav layer.
 / {
   behaviors {
-    u_mt: u_mt {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      tapping-term-ms = <222>;
-      quick-tap-ms = <222>;
-      require-prior-idle-ms = <130>;
-      flavor = "tap-preferred";
-      bindings = <&kp>, <&kp>;
-    };
     u_lt: u_lt {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
       tapping-term-ms = <U_TAPPING_TERM>;
-      flavor = "tap-preferred";
-      bindings = <&mo>, <&kp>;
-    };
-    u_lt_fast: u_lt_fast {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      tapping-term-ms = <120>;
-      flavor = "hold-preferred";
+      quick-tap-ms = <175>;
+      require-prior-idle-ms = <100>;
+      flavor = "balanced";
       bindings = <&mo>, <&kp>;
     };
   };

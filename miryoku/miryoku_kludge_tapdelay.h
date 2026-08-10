@@ -1,6 +1,3 @@
-// Copyright 2022 Manna Harbour
-// https://github.com/manna-harbour/miryoku
-
 #pragma once
 
 #define MIRYOKU_TAPDELAY_TAP(CODE) \

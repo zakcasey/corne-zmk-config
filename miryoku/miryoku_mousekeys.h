@@ -1,6 +1,3 @@
-// Copyright 2022 Manna Harbour
-// https://github.com/manna-harbour/miryoku
-
 #pragma once
 
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 1250
