@@ -123,8 +123,6 @@ only `&to` key left. Every layer is now momentary: it is on only while you hold
 its thumb key.
 
 The outer pinky columns of the Corne are not used. They are `&none` on all layers.
-This board has five columns per half. Left home row: A R S T G. Left bottom row:
-Z X C D V. For Figma, hold **Z** (under A), then scroll.
 
 ### Base
 
@@ -148,16 +146,12 @@ Home-row mods, from pinky to index:
 | Right | I   | Option  |
 | Right | O   | Control |
 
-`X` and `.` give Right Option on hold. `Z` gives Shift on hold. Tap `Z` for the
-letter. Hold `Z` for Figma: it sits under `A`, the same seat as Shift on a
-normal keyboard.
+`X` and `.` give Right Option on hold.
 
-Shift on `T`, `N` and `Z` is a simple hold-tap: Shift goes down on press. The
-tapping term is 100 ms, so a hold still becomes Shift even if the press-time
-path fails. `Z` is not in a combo.
-
-Ctrl, Opt and Cmd still need the other hand. `Cmd+C` uses Cmd on `E`, because
-`C` is on the left hand.
+A mod operates only if the next key is on the other hand or on a thumb. A
+same-hand roll can thus never make a mod by accident. But it also means that
+`Cmd+C` needs the right-hand Cmd on `E`, because `C` is on the left hand. Each
+mod is on both hands. Always use the mod on the hand opposite to the letter.
 
 If you hold two mods on the same hand, both stay available. `Cmd+Shift+T` works
 with Cmd on `S` and Shift on `T`. This is the effect of `hold-trigger-on-release`. All of these keys obey the other-hand
@@ -186,7 +180,7 @@ Ctrl   Opt   Cmd   Shift  --   |  Caps  Left   Down   Right  --
 The arrows make an **inverted T**. `Up` sits directly above `Down`, so the middle
 finger works both. `Left` is on the index finger and `Right` is on the ring finger.
 
-`Caps` gives Caps Word. Shift+`Caps` gives Caps Lock. The `G` + `M` combo gives
+`Caps` gives Caps Word. Shift+`Caps` gives Caps Lock. The `T` + `N` combo gives
 Caps Word with no layer hold. See "Combos".
 
 **Keep the left-hand mod row.** Base-layer home-row mods do not work on this
@@ -353,17 +347,14 @@ in `config/corne.keymap`, because they use raw Corne key positions.
 
 | Press together | Result    | Layer |
 | -------------- | --------- | ----- |
-| `G` + `M`      | Caps Word | Base  |
+| `T` + `N`      | Caps Word | Base  |
 
-`G` and `M` are the inner index keys, one on each hand. Press them together to
-start Caps Word, and again to stop it. Caps Word also stops at a space or at any
-key that is not a letter. This is a shortcut for the Nav layer `Caps` key, which
-stays available.
+`T` and `N` are the two home-row Shift keys, one on each hand. Press them
+together to start Caps Word, and again to stop it. Caps Word also stops at a
+space or at any key that is not a letter. This is a shortcut for the Nav layer
+`Caps` key, which stays available.
 
-This combo used to sit on `T` + `N`. Those keys are home-row Shift. A combo on a
-hold-tap waits for the combo timeout before the mod can start. A mouse cannot
-end that wait, so Shift+scroll never saw Shift. `G` and `M` are plain letters.
-
+`t` and `n` are frequent letters, and `nt` is a common pair ("want", "print").
 These settings stop a false trigger:
 
 | Setting                 | Value | Effect                                           |
@@ -372,8 +363,9 @@ These settings stop a false trigger:
 | `require-prior-idle-ms` | 150   | No combo if you pressed a key in the last 150 ms |
 | `layers`                | Base  | The combo is off on all other layers             |
 
-The idle rule stops the combo in the middle of a word. It also means that you
-must pause before you use the combo.
+The idle rule is the same one the home-row mods use. It stops the combo in the
+middle of a word, because `nt` always comes after other letters. It also means
+that you must pause before you use the combo.
 
 How to tune:
 
@@ -386,35 +378,23 @@ which stay off. See "Notes and open items".
 
 ## Home-row mods and timing
 
-There are four home-row mod behaviors in `config/corne.keymap`. `u_hml` and
-`u_hmr` are Ctrl, Opt and Cmd. `u_hmls` and `u_hmrs` are Shift. The key position
+There are two home-row mod behaviors, `u_hml` for the left hand and `u_hmr` for
+the right hand. Both are in `config/corne.keymap`, because the key position
 lists apply to the Corne only.
 
-`u_hml` and `u_hmr` have a `hold-trigger-key-positions` list. Ctrl, Opt and Cmd
-trigger **only** if the next key you press is on the other hand or on a thumb.
-A roll between two keys on the same hand can never make those mods.
+Each behavior has a `hold-trigger-key-positions` list. A mod triggers **only**
+if the next key you press is on the other hand or on a thumb. A roll between two
+keys on the same hand can never make a mod. This removes most false mods.
 
-A mouse is not a keyboard key, so it cannot trigger that list. Shift on `T`,
-`N` and `Z` uses `u_hmls` / `u_hmrs` with no positional list. The flavor is
-`hold-preferred`, the tapping term is 100 ms, and `hold-while-undecided` sends
-Shift on press. For Figma, hold `Z` (under `A`), then scroll.
+`hold-trigger-on-release` keeps same-hand mod combinations available. To get
+Cmd+Shift, hold `S` and `T` together, then press the other key.
 
-Ctrl, Opt and Cmd stay on `u_hml` / `u_hmr`. A short Cmd or Opt tap can open a
-macOS menu. Do not add `hold-while-undecided` to those keys.
-
-`hold-trigger-on-release` keeps same-hand mod combinations available on Ctrl,
-Opt and Cmd. To get Cmd+Shift, hold `S` and `T` together, then press the other
-key.
-
-| Setting                  | Value        | Effect                                               |
-| ------------------------ | ------------ | ---------------------------------------------------- |
-| `flavor` (Ctrl/Opt/Cmd)  | balanced     | Send the mod as soon as an other-hand key is pressed |
-| `tapping-term-ms` (same) | 280          | Hold time to get those mods with no other key        |
-| `flavor` (Shift)         | hold-preferred | Send Shift if you hold, or if another key is pressed |
-| `tapping-term-ms` (Shift)| 100          | Hold time for Shift with no other key                |
-| `quick-tap-ms`           | 175, not Shift | Tap again in this time to repeat the letter        |
-| `require-prior-idle-ms`  | 150, not Shift | No mod if you typed in the last 150 ms             |
-| `hold-while-undecided`   | Shift        | Send Shift on press, so a mouse can see it           |
+| Setting                 | Value    | Effect                                               |
+| ----------------------- | -------- | ---------------------------------------------------- |
+| `flavor`                | balanced | Send the mod as soon as an other-hand key is pressed |
+| `tapping-term-ms`       | 280      | Hold time to get the mod with no other key           |
+| `quick-tap-ms`          | 175      | Tap again in this time to repeat the letter          |
+| `require-prior-idle-ms` | 150      | No mod if you typed in the last 150 ms               |
 
 Thumb layer taps use `u_lt` in `miryoku/miryoku_behaviors.dtsi`.
 

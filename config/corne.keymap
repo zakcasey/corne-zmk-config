@@ -45,39 +45,21 @@
       hold-trigger-on-release;
       bindings = <&kp>, <&kp>;
     };
-    // Shift for T, N and Z. Hold-preferred, no positional list, no idle rule,
-    // no quick-tap. hold-while-undecided sends Shift on press so a mouse can
-    // see it. Z is the bottom-left pinky, the usual Shift seat on this board.
-    u_hmls: u_hmls {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      flavor = "hold-preferred";
-      tapping-term-ms = <100>;
-      hold-while-undecided;
-      bindings = <&kp>, <&kp>;
-    };
-    u_hmrs: u_hmrs {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      flavor = "hold-preferred";
-      tapping-term-ms = <100>;
-      hold-while-undecided;
-      bindings = <&kp>, <&kp>;
-    };
   };
 };
 
-// Caps Word combo: press the inner index keys, G (17) and M (18), together.
-// Caps Word is also on the Nav layer, but this needs no layer hold.
-// This combo used to sit on T and N. Those keys are home-row Shift, and a
-// combo on a hold-tap delays the mod until the combo timeout. A mouse cannot
-// end that wait, so Shift+scroll never saw Shift. G and M are plain letters.
+// Caps Word combo: press the two home-row Shift keys, T (16) and N (19),
+// together. Caps Word is also on the Nav layer, but this needs no layer hold.
+// T and N are frequent letters and "nt" is a common bigram, so the guards are
+// tight: both keys within 35 ms, and no key pressed in the last 150 ms. The
+// idle rule is the same one the home-row mods use, so the combo cannot start in
+// the middle of a word.
 / {
   combos {
     compatible = "zmk,combos";
     combo_caps_word {
       bindings = <&caps_word>;
-      key-positions = <17 18>;
+      key-positions = <16 19>;
       layers = <U_BASE>;
       timeout-ms = <35>;
       require-prior-idle-ms = <150>;
