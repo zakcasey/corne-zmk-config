@@ -48,17 +48,16 @@
     // Shift variants. hold-while-undecided sends Shift on press, before the
     // hold/tap decision. A mouse is not a keyboard key, so it cannot trigger a
     // positional hold. Without this, Shift+scroll and Shift+click wait 280 ms.
+    // No require-prior-idle-ms: that setting forced a tap if you typed in the
+    // last 150 ms, so Shift never stayed down for a mouse.
     // Ctrl, Opt and Cmd stay on u_hml/u_hmr: a short Cmd or Opt tap can open a
     // macOS menu. A short Shift tap does not.
-    // T and N are also the Caps Word combo, so Shift starts after that 35 ms
-    // combo timeout, not on the true key-down.
     u_hmls: u_hmls {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
       flavor = "balanced";
       tapping-term-ms = <280>;
       quick-tap-ms = <175>;
-      require-prior-idle-ms = <150>;
       hold-trigger-key-positions = <U_KEYS_RIGHT U_KEYS_THUMB>;
       hold-trigger-on-release;
       hold-while-undecided;
@@ -70,7 +69,6 @@
       flavor = "balanced";
       tapping-term-ms = <280>;
       quick-tap-ms = <175>;
-      require-prior-idle-ms = <150>;
       hold-trigger-key-positions = <U_KEYS_LEFT U_KEYS_THUMB>;
       hold-trigger-on-release;
       hold-while-undecided;
@@ -79,18 +77,17 @@
   };
 };
 
-// Caps Word combo: press the two home-row Shift keys, T (16) and N (19),
-// together. Caps Word is also on the Nav layer, but this needs no layer hold.
-// T and N are frequent letters and "nt" is a common bigram, so the guards are
-// tight: both keys within 35 ms, and no key pressed in the last 150 ms. The
-// idle rule is the same one the home-row mods use, so the combo cannot start in
-// the middle of a word.
+// Caps Word combo: press the inner index keys, G (17) and M (18), together.
+// Caps Word is also on the Nav layer, but this needs no layer hold.
+// This combo used to sit on T and N. Those keys are home-row Shift, and a
+// combo on a hold-tap delays the mod until the combo timeout. A mouse cannot
+// end that wait, so Shift+scroll never saw Shift. G and M are plain letters.
 / {
   combos {
     compatible = "zmk,combos";
     combo_caps_word {
       bindings = <&caps_word>;
-      key-positions = <16 19>;
+      key-positions = <17 18>;
       layers = <U_BASE>;
       timeout-ms = <35>;
       require-prior-idle-ms = <150>;
