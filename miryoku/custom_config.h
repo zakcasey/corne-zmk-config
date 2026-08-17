@@ -33,8 +33,10 @@ MIRYOKU_X(FUN,   "Fun")
 
 // Home-row mods use a separate behavior for each hand. Both are defined in
 // config/corne.keymap, because the key position lists are specific to the Corne.
-// U_HMLS / U_HMRS are the Shift pair: they send Shift on press so a mouse
-// wheel or click sees the modifier. Do not use them for Cmd or Opt.
+// U_HMLS / U_HMRS are the Shift pair on T and N. They are a simple hold-tap
+// so a mouse can see Shift. Do not use them for Cmd or Opt.
+// The left outer home-row key (next to A) is a dedicated &kp LSHFT on every
+// layer. That key is not a hold-tap. Use it if T still fails with a mouse.
 #define U_HML(MOD, TAP) &u_hml MOD TAP
 #define U_HMR(MOD, TAP) &u_hmr MOD TAP
 #define U_HMLS(MOD, TAP) &u_hmls MOD TAP

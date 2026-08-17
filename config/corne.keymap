@@ -45,32 +45,23 @@
       hold-trigger-on-release;
       bindings = <&kp>, <&kp>;
     };
-    // Shift variants. hold-while-undecided sends Shift on press, before the
-    // hold/tap decision. A mouse is not a keyboard key, so it cannot trigger a
-    // positional hold. Without this, Shift+scroll and Shift+click wait 280 ms.
-    // No require-prior-idle-ms: that setting forced a tap if you typed in the
-    // last 150 ms, so Shift never stayed down for a mouse.
-    // Ctrl, Opt and Cmd stay on u_hml/u_hmr: a short Cmd or Opt tap can open a
-    // macOS menu. A short Shift tap does not.
+    // Shift on T and N. Same idea as the old u_mt that worked with a mouse:
+    // hold-preferred, no positional list, no idle rule, no quick-tap.
+    // hold-while-undecided sends Shift on press. The dedicated Shift key next
+    // to A is &kp LSHFT and does not use this behavior.
     u_hmls: u_hmls {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
-      flavor = "balanced";
-      tapping-term-ms = <280>;
-      quick-tap-ms = <175>;
-      hold-trigger-key-positions = <U_KEYS_RIGHT U_KEYS_THUMB>;
-      hold-trigger-on-release;
+      flavor = "hold-preferred";
+      tapping-term-ms = <180>;
       hold-while-undecided;
       bindings = <&kp>, <&kp>;
     };
     u_hmrs: u_hmrs {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
-      flavor = "balanced";
-      tapping-term-ms = <280>;
-      quick-tap-ms = <175>;
-      hold-trigger-key-positions = <U_KEYS_LEFT U_KEYS_THUMB>;
-      hold-trigger-on-release;
+      flavor = "hold-preferred";
+      tapping-term-ms = <180>;
       hold-while-undecided;
       bindings = <&kp>, <&kp>;
     };

@@ -122,16 +122,22 @@ tap there locked a layer by accident. All of them are removed. `->Base` is the
 only `&to` key left. Every layer is now momentary: it is on only while you hold
 its thumb key.
 
-The outer pinky columns of the Corne are not used. They are `&none` on all layers.
+The left outer home-row key, next to `A`, is a **dedicated Shift**. It is
+`&kp LSHFT` on every layer. It is not a hold-tap. Hold that key and scroll in
+Figma to pan left and right. The other outer pinky keys stay unused (`&none`).
 
 ### Base
 
 ```
- Q     W     F     P     B   |   J     L     U     Y     '
- A     R     S     T     G   |   M     N     E     I     O
- Z     X     C     D     V   |   K     H     ,     .     /
-          Esc  Spc  Tab      |  Ret  Bspc  Del
+       Q     W     F     P     B   |   J     L     U     Y     '
+Shift  A     R     S     T     G   |   M     N     E     I     O
+       Z     X     C     D     V   |   K     H     ,     .     /
+                Esc  Spc  Tab      |  Ret  Bspc  Del
 ```
+
+The `Shift` on the far left is the outer home-row key, next to `A`. It is always
+Shift. Hold it for Figma scroll. `T` and `N` are still Shift on hold, as letters
+on tap.
 
 Home-row mods, from pinky to index:
 
@@ -153,12 +159,11 @@ same-hand roll can thus never make a mod by accident. But it also means that
 `Cmd+C` needs the right-hand Cmd on `E`, because `C` is on the left hand. Each
 mod is on both hands. Always use the mod on the hand opposite to the letter.
 
-Shift on `T` and `N` is different. It is sent as soon as you press the key, so
-a mouse can see it. Hold `T` or `N` and scroll in Figma to pan left and right.
-Ctrl, Opt and Cmd do not do this: a short Cmd or Opt tap can open a macOS menu.
+Shift on `T` and `N` is a simple hold-tap: Shift goes down on press. Same-hand
+rolls on `T` or `N` can make a Shift, unlike Ctrl, Opt and Cmd.
 
-The Caps Word combo is `G` + `M`, not `T` + `N`. A combo on Shift delayed the
-mod, and the mouse could not end that wait.
+If Figma still pans up and down with `T`, use the dedicated Shift next to `A`.
+That key is always Shift. It does not wait.
 
 If you hold two mods on the same hand, both stay available. `Cmd+Shift+T` works
 with Cmd on `S` and Shift on `T`. This is the effect of `hold-trigger-on-release`. All of these keys obey the other-hand
@@ -391,35 +396,34 @@ There are four home-row mod behaviors in `config/corne.keymap`. `u_hml` and
 `u_hmr` are Ctrl, Opt and Cmd. `u_hmls` and `u_hmrs` are Shift. The key position
 lists apply to the Corne only.
 
-Each behavior has a `hold-trigger-key-positions` list. A mod triggers **only**
-if the next key you press is on the other hand or on a thumb. A roll between two
-keys on the same hand can never make a mod. This removes most false mods.
+`u_hml` and `u_hmr` have a `hold-trigger-key-positions` list. Ctrl, Opt and Cmd
+trigger **only** if the next key you press is on the other hand or on a thumb.
+A roll between two keys on the same hand can never make those mods.
 
 A mouse is not a keyboard key, so it cannot trigger that list. Shift on `T` and
-`N` uses a second pair of behaviors (`u_hmls` / `u_hmrs`) with
-`hold-while-undecided`. Shift goes down on press, so Shift+scroll and Shift+click
-work with a mouse. If the key is a tap, Shift is released and the letter is sent.
+`N` uses `u_hmls` / `u_hmrs` with no positional list. The flavor is
+`hold-preferred`, the tapping term is 180 ms, and `hold-while-undecided` sends
+Shift on press. Same-hand rolls on `T` or `N` can make a Shift. That is the
+cost of Shift+scroll.
 
-Shift has no `require-prior-idle-ms`. That setting forced a tap if you typed in
-the last 150 ms, so Shift never stayed down for a mouse. Ctrl, Opt and Cmd still
-use the idle rule.
-
-The Caps Word combo is on `G` + `M`, not on `T` + `N`. A combo on Shift delayed
-the mod until the combo timeout.
+The left outer home-row key is `&kp LSHFT` on every layer. It is not a hold-tap.
 
 Ctrl, Opt and Cmd stay on `u_hml` / `u_hmr`. A short Cmd or Opt tap can open a
 macOS menu. Do not add `hold-while-undecided` to those keys.
 
-`hold-trigger-on-release` keeps same-hand mod combinations available. To get
-Cmd+Shift, hold `S` and `T` together, then press the other key.
+`hold-trigger-on-release` keeps same-hand mod combinations available on Ctrl,
+Opt and Cmd. To get Cmd+Shift, hold `S` and `T` together, then press the other
+key.
 
-| Setting                  | Value      | Effect                                               |
-| ------------------------ | ---------- | ---------------------------------------------------- |
-| `flavor`                 | balanced   | Send the mod as soon as an other-hand key is pressed |
-| `tapping-term-ms`        | 280        | Hold time to get the mod with no other key           |
-| `quick-tap-ms`           | 175        | Tap again in this time to repeat the letter          |
-| `require-prior-idle-ms`  | 150, not Shift | No mod if you typed in the last 150 ms           |
-| `hold-while-undecided`   | Shift only | Send Shift on press, so a mouse can see it           |
+| Setting                  | Value        | Effect                                               |
+| ------------------------ | ------------ | ---------------------------------------------------- |
+| `flavor` (Ctrl/Opt/Cmd)  | balanced     | Send the mod as soon as an other-hand key is pressed |
+| `tapping-term-ms` (same) | 280          | Hold time to get those mods with no other key        |
+| `flavor` (Shift on T/N)  | hold-preferred | Send Shift if you hold, or if another key is pressed |
+| `tapping-term-ms` (Shift)| 180          | Hold time for Shift on T/N with no other key         |
+| `quick-tap-ms`           | 175, not Shift | Tap again in this time to repeat the letter        |
+| `require-prior-idle-ms`  | 150, not Shift | No mod if you typed in the last 150 ms             |
+| `hold-while-undecided`   | Shift on T/N | Send Shift on press, so a mouse can see it           |
 
 Thumb layer taps use `u_lt` in `miryoku/miryoku_behaviors.dtsi`.
 
