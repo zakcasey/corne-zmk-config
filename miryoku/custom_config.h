@@ -33,21 +33,20 @@ MIRYOKU_X(FUN,   "Fun")
 
 // Home-row mods use a separate behavior for each hand. Both are defined in
 // config/corne.keymap, because the key position lists are specific to the Corne.
-// U_HMLS / U_HMRS are the Shift pair on T and N. They are a simple hold-tap
-// so a mouse can see Shift. Do not use them for Cmd or Opt.
-// The left outer home-row key (next to A) is a dedicated &kp LSHFT on every
-// layer. That key is not a hold-tap. Use it if T still fails with a mouse.
+// U_HMLS / U_HMRS are Shift on T, N and Z. Simple hold-tap so a mouse can
+// see Shift. Do not use them for Cmd or Opt. Z is the Figma Shift key:
+// it is the bottom-left pinky, and it is not in a combo.
 #define U_HML(MOD, TAP) &u_hml MOD TAP
 #define U_HMR(MOD, TAP) &u_hmr MOD TAP
 #define U_HMLS(MOD, TAP) &u_hmls MOD TAP
 #define U_HMRS(MOD, TAP) &u_hmrs MOD TAP
 
-// Base: Colemak-DH with home-row mods. The outer pinkies (Z and /) are plain
-// keys, not layer-taps.
+// Base: Colemak-DH with home-row mods. Z is Shift on hold (Figma scroll).
+// The slash pinky stays a plain key.
 #define MIRYOKU_LAYER_BASE \
 &kp Q,             &kp W,             &kp F,             &kp P,             &kp B,             &kp J,             &kp L,             &kp U,             &kp Y,             &kp SQT,           \
 U_HML(LCTRL, A),   U_HML(LALT, R),    U_HML(LGUI, S),    U_HMLS(LSHFT, T),  &kp G,             &kp M,             U_HMRS(LSHFT, N),  U_HMR(LGUI, E),    U_HMR(LALT, I),    U_HMR(LCTRL, O),   \
-&kp Z,             U_HML(RALT, X),    &kp C,             &kp D,             &kp V,             &kp K,             &kp H,             &kp COMMA,         U_HMR(RALT, DOT),  &kp SLASH,         \
+U_HMLS(LSHFT, Z),  U_HML(RALT, X),    &kp C,             &kp D,             &kp V,             &kp K,             &kp H,             &kp COMMA,         U_HMR(RALT, DOT),  &kp SLASH,         \
 U_NP,              U_NP,              U_LT(U_MEDIA, ESC),U_LT(U_NAV, SPACE),U_LT(U_MOUSE, TAB),U_LT(U_SYM, RET),  U_LT(U_NUM, BSPC), U_LT(U_FUN, DEL),  U_NP,              U_NP
 
 // Nav (held by Space). Trimmed to the keys in daily use: an inverted-T arrow

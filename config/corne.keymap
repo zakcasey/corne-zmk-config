@@ -45,15 +45,14 @@
       hold-trigger-on-release;
       bindings = <&kp>, <&kp>;
     };
-    // Shift on T and N. Same idea as the old u_mt that worked with a mouse:
-    // hold-preferred, no positional list, no idle rule, no quick-tap.
-    // hold-while-undecided sends Shift on press. The dedicated Shift key next
-    // to A is &kp LSHFT and does not use this behavior.
+    // Shift for T, N and Z. Hold-preferred, no positional list, no idle rule,
+    // no quick-tap. hold-while-undecided sends Shift on press so a mouse can
+    // see it. Z is the bottom-left pinky, the usual Shift seat on this board.
     u_hmls: u_hmls {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
       flavor = "hold-preferred";
-      tapping-term-ms = <180>;
+      tapping-term-ms = <100>;
       hold-while-undecided;
       bindings = <&kp>, <&kp>;
     };
@@ -61,7 +60,7 @@
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
       flavor = "hold-preferred";
-      tapping-term-ms = <180>;
+      tapping-term-ms = <100>;
       hold-while-undecided;
       bindings = <&kp>, <&kp>;
     };
