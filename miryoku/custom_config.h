@@ -33,14 +33,18 @@ MIRYOKU_X(FUN,   "Fun")
 
 // Home-row mods use a separate behavior for each hand. Both are defined in
 // config/corne.keymap, because the key position lists are specific to the Corne.
+// U_HMLS / U_HMRS are the Shift pair: they send Shift on press so a mouse
+// wheel or click sees the modifier. Do not use them for Cmd or Opt.
 #define U_HML(MOD, TAP) &u_hml MOD TAP
 #define U_HMR(MOD, TAP) &u_hmr MOD TAP
+#define U_HMLS(MOD, TAP) &u_hmls MOD TAP
+#define U_HMRS(MOD, TAP) &u_hmrs MOD TAP
 
 // Base: Colemak-DH with home-row mods. The outer pinkies (Z and /) are plain
 // keys, not layer-taps.
 #define MIRYOKU_LAYER_BASE \
 &kp Q,             &kp W,             &kp F,             &kp P,             &kp B,             &kp J,             &kp L,             &kp U,             &kp Y,             &kp SQT,           \
-U_HML(LCTRL, A),   U_HML(LALT, R),    U_HML(LGUI, S),    U_HML(LSHFT, T),   &kp G,             &kp M,             U_HMR(LSHFT, N),   U_HMR(LGUI, E),    U_HMR(LALT, I),    U_HMR(LCTRL, O),   \
+U_HML(LCTRL, A),   U_HML(LALT, R),    U_HML(LGUI, S),    U_HMLS(LSHFT, T),  &kp G,             &kp M,             U_HMRS(LSHFT, N),  U_HMR(LGUI, E),    U_HMR(LALT, I),    U_HMR(LCTRL, O),   \
 &kp Z,             U_HML(RALT, X),    &kp C,             &kp D,             &kp V,             &kp K,             &kp H,             &kp COMMA,         U_HMR(RALT, DOT),  &kp SLASH,         \
 U_NP,              U_NP,              U_LT(U_MEDIA, ESC),U_LT(U_NAV, SPACE),U_LT(U_MOUSE, TAB),U_LT(U_SYM, RET),  U_LT(U_NUM, BSPC), U_LT(U_FUN, DEL),  U_NP,              U_NP
 

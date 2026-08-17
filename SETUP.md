@@ -153,6 +153,10 @@ same-hand roll can thus never make a mod by accident. But it also means that
 `Cmd+C` needs the right-hand Cmd on `E`, because `C` is on the left hand. Each
 mod is on both hands. Always use the mod on the hand opposite to the letter.
 
+Shift on `T` and `N` is different. It is sent as soon as you press the key, so
+a mouse can see it. Hold `T` or `N` and scroll in Figma to pan left and right.
+Ctrl, Opt and Cmd do not do this: a short Cmd or Opt tap can open a macOS menu.
+
 If you hold two mods on the same hand, both stay available. `Cmd+Shift+T` works
 with Cmd on `S` and Shift on `T`. This is the effect of `hold-trigger-on-release`. All of these keys obey the other-hand
 rule. See "Home-row mods and timing".
@@ -378,23 +382,34 @@ which stay off. See "Notes and open items".
 
 ## Home-row mods and timing
 
-There are two home-row mod behaviors, `u_hml` for the left hand and `u_hmr` for
-the right hand. Both are in `config/corne.keymap`, because the key position
+There are four home-row mod behaviors in `config/corne.keymap`. `u_hml` and
+`u_hmr` are Ctrl, Opt and Cmd. `u_hmls` and `u_hmrs` are Shift. The key position
 lists apply to the Corne only.
 
 Each behavior has a `hold-trigger-key-positions` list. A mod triggers **only**
 if the next key you press is on the other hand or on a thumb. A roll between two
 keys on the same hand can never make a mod. This removes most false mods.
 
+A mouse is not a keyboard key, so it cannot trigger that list. Shift on `T` and
+`N` uses a second pair of behaviors (`u_hmls` / `u_hmrs`) with
+`hold-while-undecided`. Shift goes down on press, so Shift+scroll and Shift+click
+work with a mouse. If the key is a tap, Shift is released and the letter is sent.
+`T` and `N` are also the Caps Word combo, so Shift starts after that 35 ms combo
+timeout.
+
+Ctrl, Opt and Cmd stay on `u_hml` / `u_hmr`. A short Cmd or Opt tap can open a
+macOS menu. Do not add `hold-while-undecided` to those keys.
+
 `hold-trigger-on-release` keeps same-hand mod combinations available. To get
 Cmd+Shift, hold `S` and `T` together, then press the other key.
 
-| Setting                 | Value    | Effect                                               |
-| ----------------------- | -------- | ---------------------------------------------------- |
-| `flavor`                | balanced | Send the mod as soon as an other-hand key is pressed |
-| `tapping-term-ms`       | 280      | Hold time to get the mod with no other key           |
-| `quick-tap-ms`          | 175      | Tap again in this time to repeat the letter          |
-| `require-prior-idle-ms` | 150      | No mod if you typed in the last 150 ms               |
+| Setting                  | Value    | Effect                                               |
+| ------------------------ | -------- | ---------------------------------------------------- |
+| `flavor`                 | balanced | Send the mod as soon as an other-hand key is pressed |
+| `tapping-term-ms`        | 280      | Hold time to get the mod with no other key           |
+| `quick-tap-ms`           | 175      | Tap again in this time to repeat the letter          |
+| `require-prior-idle-ms`  | 150      | No mod if you typed in the last 150 ms               |
+| `hold-while-undecided`   | Shift only | Send Shift on press, so a mouse can see it         |
 
 Thumb layer taps use `u_lt` in `miryoku/miryoku_behaviors.dtsi`.
 
